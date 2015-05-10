@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
+#import "TTSCircle.h"
+#import "TTSSquare.h"
+#import "TTSTriangle.h"
 
 @interface TapThoseShapesTests : XCTestCase
 
@@ -25,16 +28,44 @@
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    XCTAssert(YES, @"Pass");
+- (void)testThatCircleReturnsProperDescription
+{
+    // given
+    CGSize boundingBox = CGSizeMake(1, 1);
+    TTSCircle *circle = [[TTSCircle alloc] initWithSize:boundingBox];
+    
+    // when
+    NSString *shapeDescription = [circle shapeDescription];
+    
+    // then
+    XCTAssertEqualObjects(shapeDescription, @"Circle with radius: 0.5 and area: 0.8");
+
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testThatTriangleReturnsProperDescription
+{
+    // given
+    CGSize boundingBox = CGSizeMake(1, 1);
+    TTSTriangle *triangle = [[TTSTriangle alloc] initWithSize:boundingBox];
+    
+    // when
+    NSString *shapeDescription = [triangle shapeDescription];
+    
+    // then
+    XCTAssertEqualObjects(shapeDescription, @"Triangle with sides: 3 and area: 0.5");
 }
 
+- (void)testThatSquareReturnsProperDescription
+{
+    // given
+    CGSize boundingBox = CGSizeMake(1, 1);
+    TTSSquare *triangle = [[TTSSquare alloc] initWithSize:boundingBox];
+    
+    // when
+    NSString *shapeDescription = [triangle shapeDescription];
+    
+
+    // then
+    XCTAssertEqualObjects(shapeDescription, @"Square with sides: 4 and area: 1.0");
+}
 @end
