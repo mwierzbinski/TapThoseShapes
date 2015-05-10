@@ -12,4 +12,8 @@
 
 @property (retain, nonatomic) IBOutlet UIImageView *shapesField;
 
+
+-(void)updateScreenWithObjects:(NSArray *)shapesArray;
+
+
 @end
