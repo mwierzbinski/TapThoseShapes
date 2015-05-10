@@ -27,5 +27,6 @@ static NSInteger kTimeInterval = 1; // spawning time of Shapes
 
 - (void)initializeLevel; //should be called after we set level properties
 - (void)removeShapeFromList:(TTSShape *)shape;
+- (void)addRandomShapeToList;
 
 @end

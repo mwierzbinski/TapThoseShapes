@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TTSLevel.h"
+
 
 @interface ViewController : UIViewController
 
-@property (nonatomic, retain) TTSLevel *level;
+
 
 @end
 

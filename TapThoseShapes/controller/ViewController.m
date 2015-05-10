@@ -8,8 +8,14 @@
 
 #import "ViewController.h"
 #import "TTSGameView.h"
+#import "TTSLevel.h"
 
 @interface ViewController ()
+
+@property (nonatomic, retain) NSTimer *levelTimer;
+@property (nonatomic, retain) NSTimer *spawnTimer;
+
+@property (nonatomic, retain) TTSLevel *level;
 
 @end
 
@@ -92,6 +98,8 @@
     [tap release];
     
     [self.level initializeLevel];
+    
+    [self startGame];
 }
 
 -(void)tapedScreen:(UITapGestureRecognizer *)tapGesture {
@@ -107,6 +115,35 @@
         }
     }
 }
+
+#pragma mark - game 
+
+- (void)startGame {
+    
+    NSTimer* levelTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateRemainingTime:) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:levelTimer forMode:NSRunLoopCommonModes];
+    self.levelTimer = levelTimer;
+
+    NSTimer* spawnTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateShapes:) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:spawnTimer forMode:NSRunLoopCommonModes];
+    self.spawnTimer = spawnTimer;
+    
+}
+
+- (void)endGame {
+    [self.levelTimer invalidate];
+    self.levelTimer = nil;
+    
+}
+
+- (void)updateRemainingTime:(NSTimer *)onject {
+    
+}
+
+- (void)updateShapes:(NSTimer *)onject {
+    [self.level addRandomShapeToList];
+}
+
 
 #pragma mark - helper
 

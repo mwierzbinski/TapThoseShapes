@@ -48,6 +48,16 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
     [tempShapesArray release];
 }
 
+-(void) addRandomShapeToList {
+
+    if ([self.shapeList count] < kMaxNodes) {
+        NSMutableArray *tempShapesArray = [[NSMutableArray alloc] initWithArray:self.shapeList];
+        [tempShapesArray addObject:[self createRandomShape]];
+        self.shapeList = tempShapesArray;
+        [tempShapesArray release];
+    }
+}
+
 #pragma mark - creating shapes
 
 - (TTSShape *)createRandomShape {
