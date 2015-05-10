@@ -18,6 +18,8 @@
 
 - (void)dealloc {
     [_shapesField release];
+    [_timerLabel release];
+    [_descriptionLabel release];
     [super dealloc];
 }
 

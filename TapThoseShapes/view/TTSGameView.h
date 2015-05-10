@@ -11,6 +11,8 @@
 @interface TTSGameView : UIView
 
 @property (retain, nonatomic) IBOutlet UIImageView *shapesField;
+@property (retain, nonatomic) IBOutlet UILabel *timerLabel;
+@property (retain, nonatomic) IBOutlet UILabel *descriptionLabel;
 
 
 -(void)updateScreenWithObjects:(NSArray *)shapesArray;
