@@ -39,6 +39,11 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
 {
     NSMutableArray *tempShapesArray = [[NSMutableArray alloc] initWithArray:self.shapeList];
     [tempShapesArray removeObject:shape];
+    
+    if ([self.shapeList count] < kMinNodes) {
+        [tempShapesArray addObject:[self createRandomShape]];
+    }
+    
     self.shapeList = tempShapesArray;
     [tempShapesArray release];
 }
