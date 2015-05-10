@@ -21,7 +21,7 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
 @interface ViewController () {
     double addShapeTime;
     double roundClock;
-    double lastUpdateTime;
+    // double lastUpdateTime;
 }
 
 @property (nonatomic, retain) NSTimer *updateTimer;
@@ -158,7 +158,7 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     // start game timers
     addShapeTime = 0;
     roundClock = 0;
-    lastUpdateTime = [[NSDate date] timeIntervalSince1970];
+    // lastUpdateTime = [[NSDate date] timeIntervalSince1970];
     NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f/kUpdateCallsPerSecond target:self selector:@selector(updateGame:) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     self.updateTimer = timer;
@@ -188,16 +188,19 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
 #pragma mark - actions
 
 - (void)updateGame:(NSTimer *)timer {
+    // not using this to update views.
+    // We could, but in this app redrawing everything in each frame is not necessary (i think).
+    // instead were using observers to update view when necessary
     
-    // calculate delta time
-    double newTime = [[NSDate date] timeIntervalSince1970];
-    double dt = newTime - lastUpdateTime;
-    lastUpdateTime = newTime;
+    // calculate delta time - should be improved for now using timers timeInterval should be enough.
+    //    double newTime = [[NSDate date] timeIntervalSince1970];
+    //    double dt = newTime - lastUpdateTime;
+    // lastUpdateTime = newTime;
     
     // add shape every kShapeSpawnTime
-    [self updateShapes:dt];
+    [self updateShapes:timer.timeInterval];
     // update game clock
-    [self updateRemainingTime:dt];
+    [self updateRemainingTime:timer.timeInterval];
     
 }
 
@@ -264,6 +267,7 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     [textView addGestureRecognizer:tap];
     [tap release];
     
+    // because star wars is cool!
     // Start with a blank transform
     //CATransform3D blankTransform = CATransform3DIdentity;
     
