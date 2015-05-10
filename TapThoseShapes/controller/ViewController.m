@@ -92,7 +92,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.multipleTouchEnabled = NO;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedScreen:)];
     [[self getGameView].shapesField addGestureRecognizer:tap];
     [tap release];
