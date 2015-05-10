@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "TTSGameView.h"
 
 @interface ViewController ()
 
@@ -61,7 +62,7 @@
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
     if (object == self.level && [keyPath isEqualToString:shapeListKey])
     {
-      
+        [[self getGameView] updateScreenWithObjects:self.level.shapeList];
     }
     else
     {
@@ -84,6 +85,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self.level initializeLevel];
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -91,6 +93,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - helper
+
+-(TTSGameView *) getGameView {
+    return (TTSGameView *)self.view;
 }
 
 @end

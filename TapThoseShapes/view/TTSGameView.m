@@ -26,23 +26,16 @@
     float width = screenRect.size.width;
     float height = screenRect.size.height;
     
-
-    
-    UIImage *textureImg = nil;// input image to be composited over new image as example
-    
     // create a new bitmap image context at the device resolution (retina/non-retina)
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), false, 0.0);
-    // get context
     CGContextRef context = UIGraphicsGetCurrentContext();
     // push context to make it current
     // (need to do this manually because we are not drawing in a UIView)
     UIGraphicsPushContext(context);
-    
-    // drawing code comes here- look at CGContext reference
-    // for available operations
-    // this example draws the inputImage into the context
-    
+
     for (TTSShape *shape in shapesArray) {
+        UIImage *textureImg = nil;// input image to be composited over new image as example
+        
         if ([shape isKindOfClass:[TTSCircle class]]) {
             // draw circle img
             textureImg = [self drawCircleWithSize:shape.size];
@@ -63,15 +56,11 @@
     
     // pop context
     UIGraphicsPopContext();
-    
-    // get a UIImage from the image context- enjoy!!!
     UIImage *outputImage = UIGraphicsGetImageFromCurrentImageContext();
-    
     // clean up drawing environment
     UIGraphicsEndImageContext();
     
     self.shapesField.image = outputImage;
-    NSLog(@"IMG: %@", self.shapesField);
 }
 
 #pragma mark - drawing methods
