@@ -39,8 +39,34 @@
 }
 
 - (void)dealloc {
+    [self removeObservers];
     [_level release];
     [super dealloc];
+}
+
+#pragma mark - observers
+
+-(void) addObservers {
+    NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
+    [self.level addObserver:self forKeyPath:shapeListKey options:NSKeyValueObservingOptionNew context:nil];
+}
+
+-(void)removeObservers {
+    NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
+    [self.level removeObserver:self forKeyPath:shapeListKey];
+}
+
+-(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
+    if (object == self.level && [keyPath isEqualToString:shapeListKey])
+    {
+      
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 #pragma mark - setup model
@@ -48,13 +74,17 @@
 - (void)setupData {
     
     TTSLevel *level = [[TTSLevel alloc] init];
-    [level initializeLevel];
     self.level = level;
     [level release];
+    
+    [self addObservers];
 }
+
+#pragma mark - life cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.level initializeLevel];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
