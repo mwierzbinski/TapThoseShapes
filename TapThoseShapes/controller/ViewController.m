@@ -10,17 +10,21 @@
 #import "TTSGameView.h"
 #import "TTSLevel.h"
 
-
 // defined values for task
 static int kMinNodes = 10; // minimum number of Shapes at this lvl
 static int kMaxNodes = 200; // max number of Shapes at this lvl
 static int kTimePerRound = 60;
 static int kInitialShapesCount = 20; // the number will be a random between kMinNodes and (kMinNodes + kInitialShapesCount)
+static int kUpdateCallsPerSecond = 60;
+static double kShapeSpawnTime = 5; // adding new shape every .5s
 
-@interface ViewController ()
+@interface ViewController () {
+    double addShapeTime;
+    double roundClock;
+    double lastUpdateTime;
+}
 
-@property (nonatomic, retain) NSTimer *levelTimer;
-@property (nonatomic, retain) NSTimer *spawnTimer;
+@property (nonatomic, retain) NSTimer *updateTimer;
 @property (nonatomic, retain) UITextView *infoText;
 @property (nonatomic, retain) TTSLevel *level;
 
@@ -54,6 +58,8 @@ static int kInitialShapesCount = 20; // the number will be a random between kMin
 
 - (void)dealloc {
     [self removeObservers];
+    [_updateTimer invalidate];
+    [_updateTimer release];
     [_infoText release];
     [_level release];
     [super dealloc];
@@ -62,17 +68,13 @@ static int kInitialShapesCount = 20; // the number will be a random between kMin
 #pragma mark - observers
 
 -(void) addObservers {
-    
     NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
     [self.level addObserver:self forKeyPath:gameStateKey options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)removeObservers {
-    
     NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
     [self.level removeObserver:self forKeyPath:gameStateKey];
-    
-
 }
 
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -154,13 +156,12 @@ static int kInitialShapesCount = 20; // the number will be a random between kMin
     [self.level populateLevel];
     
     // start game timers
-    NSTimer* levelTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateRemainingTime:) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:levelTimer forMode:NSRunLoopCommonModes];
-    self.levelTimer = levelTimer;
-    
-    NSTimer* spawnTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateShapes:) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:spawnTimer forMode:NSRunLoopCommonModes];
-    self.spawnTimer = spawnTimer;
+    addShapeTime = 0;
+    roundClock = 0;
+    lastUpdateTime = [[NSDate date] timeIntervalSince1970];
+    NSTimer *timer = [NSTimer timerWithTimeInterval:1.0f/kUpdateCallsPerSecond target:self selector:@selector(updateGame:) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
+    self.updateTimer = timer;
     
 }
 
@@ -176,23 +177,53 @@ static int kInitialShapesCount = 20; // the number will be a random between kMin
     [self.level depopulateLevel];
 
     // invalidate timers
-    [self.spawnTimer invalidate];
-    self.spawnTimer = nil;
-    
-    [self.levelTimer invalidate];
-    self.levelTimer = nil;
+    [self.updateTimer invalidate];
+    self.updateTimer = nil;
     
     // remove observers
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
     [self.level removeObserver:self forKeyPath:shapeListKey];
 }
 
-- (void)updateRemainingTime:(NSTimer *)onject {
+#pragma mark - actions
+
+- (void)updateGame:(NSTimer *)timer {
+    
+    // calculate delta time
+    double newTime = [[NSDate date] timeIntervalSince1970];
+    double dt = newTime - lastUpdateTime;
+    lastUpdateTime = newTime;
+    
+    // add shape every kShapeSpawnTime
+    [self updateShapes:dt];
+    // update game clock
+    [self updateRemainingTime:dt];
     
 }
 
-- (void)updateShapes:(NSTimer *)onject {
-    [self.level addRandomShapeToList];
+- (void)updateRemainingTime:(double)deltaTime {
+    
+    float sec = 1.f;
+    roundClock += deltaTime;
+    
+    if (roundClock >= sec) {
+        if (self.level.timeLeftInRound == 0) {
+            self.level.gameState = TTSGameStateEnd;
+        } else {
+            --self.level.timeLeftInRound;
+            [self getGameView].timerLabel.text = [NSString stringWithFormat:@"%li", (long)self.level.timeLeftInRound];
+        }
+        roundClock = 0;
+    }
+}
+
+- (void)updateShapes:(double)deltaTime {
+    
+    addShapeTime += deltaTime;
+    if (addShapeTime >= kShapeSpawnTime) {
+        [self.level addRandomShapeToList];
+        addShapeTime = 0;
+    }
 }
 
 -(void)dismissInfoScreen:(UITapGestureRecognizer *)tapGesture {
@@ -247,9 +278,6 @@ static int kInitialShapesCount = 20; // the number will be a random between kMin
     
     return [textView autorelease];
 }
-
-
-
 
 #pragma mark - helper
 
