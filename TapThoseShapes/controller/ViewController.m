@@ -13,7 +13,7 @@
 // defined values for task
 static int kMinNodes = 10; // minimum number of Shapes at this lvl
 static int kMaxNodes = 200; // max number of Shapes at this lvl
-static int kTimePerRound = 10;
+static int kTimePerRound = 60;
 static int kInitialShapesCount = 20; // the number will be a random between kMinNodes and (kMinNodes + kInitialShapesCount)
 static int kUpdateCallsPerSecond = 60;
 static double kShapeSpawnTime = .5; // adding new shape every .5s
@@ -228,13 +228,14 @@ static double kDescriptionLabelDismissTime = 2.f;
 
 -(void)showIntroScreen {
     self.infoText = [self setupInfoText];
-    self.infoText.text = @"[ Tap to start ]";
+    self.infoText.text = @"TAM TA DA DAM!\n\n\n In the galaxy far far away...\n The Mathematicians continue to strike fear with their devastating weapon\n -The shapes-\n But a hope has arouse. A young warrior appeared, possessing unknown power called the finger. With this power he can bring peace to the galaxy. You are that warrior... so let's \n\nTAP THOSE SHAPES\n\n\n [ Tap to start ]";
+    
     [self.view addSubview:self.infoText];
 }
 
 -(void)showEndGameScreen {
     self.infoText = [self setupInfoText];
-    self.infoText.text = @"[ Tap to try again ]";
+    self.infoText.text = @"Despite your great efforts the enemy is still out there. You should try again.\n\n\n [ Tap to try again ]";
     [self.view addSubview:self.infoText];
 }
 
@@ -273,9 +274,9 @@ static double kDescriptionLabelDismissTime = 2.f;
     UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
     textView.backgroundColor = [UIColor blackColor];
     textView.textColor = [UIColor yellowColor];
-    textView.font = [UIFont boldSystemFontOfSize:36.0];
+    textView.font = [UIFont boldSystemFontOfSize:24.0];
     textView.textAlignment = NSTextAlignmentCenter;
-    
+
     // disable editing
     textView.editable = NO;
     textView.selectable = NO;
@@ -290,10 +291,10 @@ static double kDescriptionLabelDismissTime = 2.f;
     // CATransform3D blankTransform = CATransform3DIdentity;
     
     // Skew the text
-    // blankTransform.m34 = -1.0 / 800.0;
+    // blankTransform.m34 = -1.0 / 300.0;
     
     // Rotate the text
-    // blankTransform = CATransform3DRotate(blankTransform, 45.0f * M_PI / 180.0f, 1.0f, 0.0f, 0.0f);
+    //blankTransform = CATransform3DRotate(blankTransform, 45.0f * M_PI / 180.0f, 1.0f, 0.0f, 0.0f);
     
     // Set the transform
     // [textView.layer setTransform:blankTransform];
