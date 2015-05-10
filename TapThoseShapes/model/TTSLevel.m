@@ -19,21 +19,21 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
     [super dealloc];
 }
 
-- (void)initializeLevel {
+- (void)populateLevel {
     
     NSMutableArray *initialShapesArray = [[NSMutableArray alloc] init];
     
-    for (int i = 0; i < kNoStartingShapes; i++) {
+    // add random shapes
+    for (int i = 0; i < self.initialShapesCount; i++) {
         [initialShapesArray addObject:[self createRandomShape]];
     }
     
     //making sure if were not adding empty array
     self.shapeList = [initialShapesArray count] > 0 ? initialShapesArray : nil;
-    
     [initialShapesArray release];
 }
 
-- (void)resetLevel {
+- (void)depopulateLevel {
     self.shapeList = nil;
 }
 
@@ -44,7 +44,7 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
     NSMutableArray *tempShapesArray = [[NSMutableArray alloc] initWithArray:self.shapeList];
     [tempShapesArray removeObject:shape];
     
-    if ([self.shapeList count] < kMinNodes) {
+    if ([self.shapeList count] < self.minShapes) {
         [tempShapesArray addObject:[self createRandomShape]];
     }
     
@@ -54,7 +54,7 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
 
 -(void) addRandomShapeToList {
 
-    if ([self.shapeList count] < kMaxNodes) {
+    if ([self.shapeList count] < self.maxShapes) {
         NSMutableArray *tempShapesArray = [[NSMutableArray alloc] initWithArray:self.shapeList];
         [tempShapesArray addObject:[self createRandomShape]];
         self.shapeList = tempShapesArray;

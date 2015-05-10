@@ -12,14 +12,6 @@
 #import "TTSSquare.h"
 #import "TTSTriangle.h"
 
-// currently there is one level but
-// if there will be time we could change this to properties of the level
-// so the levels would differ
-
-static NSInteger kNoStartingShapes = 20; // number of Shapes you start with on the lvl
-static NSInteger kMinNodes = 10; // minimum number of Shapes at this lvl
-static NSInteger kMaxNodes = 200; // max number of Shapes at this lvl
-static NSInteger kTimeInterval = 1; // spawning time of Shapes
 typedef NS_ENUM(NSUInteger, TTSGameState)
 {
     TTSGameStateStart = 1,
@@ -31,11 +23,16 @@ typedef NS_ENUM(NSUInteger, TTSGameState)
 @interface TTSLevel : NSObject
 
 @property (nonatomic, retain) NSArray *shapeList;
+@property (nonatomic, assign) NSInteger timeLeftInRound;
+@property (nonatomic, assign) NSInteger minShapes;
+@property (nonatomic, assign) NSInteger maxShapes;
+@property (nonatomic, assign) NSInteger initialShapesCount;
 @property (nonatomic, assign) TTSGameState gameState;
 
-- (void)initializeLevel; //should be called after we set level properties
+- (void)populateLevel; //should be called after we set level properties
+- (void)depopulateLevel;
 - (void)removeShapeFromList:(TTSShape *)shape;
 - (void)addRandomShapeToList;
-- (void)resetLevel;
+
 
 @end

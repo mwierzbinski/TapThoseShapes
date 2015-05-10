@@ -10,11 +10,17 @@
 #import "TTSGameView.h"
 #import "TTSLevel.h"
 
+
+// defined values for task
+static int kMinNodes = 10; // minimum number of Shapes at this lvl
+static int kMaxNodes = 200; // max number of Shapes at this lvl
+static int kTimePerRound = 60;
+static int kInitialShapesCount = 20; // the number will be a random between kMinNodes and (kMinNodes + kInitialShapesCount)
+
 @interface ViewController ()
 
 @property (nonatomic, retain) NSTimer *levelTimer;
 @property (nonatomic, retain) NSTimer *spawnTimer;
-
 @property (nonatomic, retain) UITextView *infoText;
 @property (nonatomic, retain) TTSLevel *level;
 
@@ -140,7 +146,12 @@
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
     [self.level addObserver:self forKeyPath:shapeListKey options:NSKeyValueObservingOptionNew context:nil];
     
-    [self.level initializeLevel];
+    // customize level
+    self.level.minShapes = kMinNodes;
+    self.level.maxShapes = kMaxNodes;
+    self.level.timeLeftInRound = kTimePerRound;
+    self.level.initialShapesCount = arc4random_uniform(kInitialShapesCount) + kMinNodes;
+    [self.level populateLevel];
     
     // start game timers
     NSTimer* levelTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateRemainingTime:) userInfo:nil repeats:YES];
@@ -156,8 +167,13 @@
 - (void)endGame {
     
     [self showEndGameScreen];
+    
     //remove shapes
-    [self.level resetLevel];
+    self.level.minShapes = 0;
+    self.level.maxShapes = 0;
+    self.level.timeLeftInRound = 0;
+    self.level.initialShapesCount = 0;
+    [self.level depopulateLevel];
 
     // invalidate timers
     [self.spawnTimer invalidate];
