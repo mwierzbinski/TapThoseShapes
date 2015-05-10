@@ -19,6 +19,7 @@
 		905B5C5B1AFF6129004CEA88 /* TTSTriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C581AFF6129004CEA88 /* TTSTriangle.m */; };
 		905B5C5E1AFF6133004CEA88 /* TTSCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C5D1AFF6133004CEA88 /* TTSCircle.m */; };
 		905B5C611AFF6180004CEA88 /* TTSLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C601AFF6180004CEA88 /* TTSLevel.m */; };
+		905B5C641AFF6280004CEA88 /* TTSGameView.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C631AFF6280004CEA88 /* TTSGameView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,8 @@
 		905B5C5D1AFF6133004CEA88 /* TTSCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSCircle.m; sourceTree = "<group>"; };
 		905B5C5F1AFF6180004CEA88 /* TTSLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSLevel.h; sourceTree = "<group>"; };
 		905B5C601AFF6180004CEA88 /* TTSLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSLevel.m; sourceTree = "<group>"; };
+		905B5C621AFF6280004CEA88 /* TTSGameView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSGameView.h; sourceTree = "<group>"; };
+		905B5C631AFF6280004CEA88 /* TTSGameView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSGameView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 		900DE3011AFF5F1600DC7ED9 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				905B5C621AFF6280004CEA88 /* TTSGameView.h */,
+				905B5C631AFF6280004CEA88 /* TTSGameView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 				905B5C5B1AFF6129004CEA88 /* TTSTriangle.m in Sources */,
 				900DE2E11AFF5E8400DC7ED9 /* AppDelegate.m in Sources */,
 				905B5C5E1AFF6133004CEA88 /* TTSCircle.m in Sources */,
+				905B5C641AFF6280004CEA88 /* TTSGameView.m in Sources */,
 				900DE2DE1AFF5E8400DC7ED9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
