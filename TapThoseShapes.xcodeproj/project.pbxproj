@@ -18,6 +18,7 @@
 		905B5C5A1AFF6129004CEA88 /* TTSSquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C561AFF6129004CEA88 /* TTSSquare.m */; };
 		905B5C5B1AFF6129004CEA88 /* TTSTriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C581AFF6129004CEA88 /* TTSTriangle.m */; };
 		905B5C5E1AFF6133004CEA88 /* TTSCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C5D1AFF6133004CEA88 /* TTSCircle.m */; };
+		905B5C611AFF6180004CEA88 /* TTSLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C601AFF6180004CEA88 /* TTSLevel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,8 @@
 		905B5C581AFF6129004CEA88 /* TTSTriangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSTriangle.m; sourceTree = "<group>"; };
 		905B5C5C1AFF6133004CEA88 /* TTSCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSCircle.h; sourceTree = "<group>"; };
 		905B5C5D1AFF6133004CEA88 /* TTSCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSCircle.m; sourceTree = "<group>"; };
+		905B5C5F1AFF6180004CEA88 /* TTSLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSLevel.h; sourceTree = "<group>"; };
+		905B5C601AFF6180004CEA88 /* TTSLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSLevel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +145,8 @@
 		900DE3021AFF5F1D00DC7ED9 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				905B5C5F1AFF6180004CEA88 /* TTSLevel.h */,
+				905B5C601AFF6180004CEA88 /* TTSLevel.m */,
 				905B5C5C1AFF6133004CEA88 /* TTSCircle.h */,
 				905B5C5D1AFF6133004CEA88 /* TTSCircle.m */,
 				905B5C531AFF6129004CEA88 /* TTSShape.h */,
@@ -263,6 +268,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				905B5C611AFF6180004CEA88 /* TTSLevel.m in Sources */,
 				900DE2E41AFF5E8400DC7ED9 /* ViewController.m in Sources */,
 				905B5C5A1AFF6129004CEA88 /* TTSSquare.m in Sources */,
 				905B5C591AFF6129004CEA88 /* TTSShape.m in Sources */,
