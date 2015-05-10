@@ -33,6 +33,16 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
     [initialShapesArray release];
 }
 
+#pragma mark - adding/ removing from list
+
+- (void)removeShapeFromList:(TTSShape *)shape
+{
+    NSMutableArray *tempShapesArray = [[NSMutableArray alloc] initWithArray:self.shapeList];
+    [tempShapesArray removeObject:shape];
+    self.shapeList = tempShapesArray;
+    [tempShapesArray release];
+}
+
 #pragma mark - creating shapes
 
 - (TTSShape *)createRandomShape {
@@ -72,8 +82,22 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
     CGPoint randomCenter = CGPointMake(x, y);
     randomShape.center = randomCenter;
     
+    // add radnom color
+    randomShape.color = [self randomColor];
+    
     return [randomShape autorelease];
 }
 
+-(UIColor *)randomColor {
+    
+    float red = arc4random_uniform(100) / 100.0f;
+    float green = arc4random_uniform(100) / 100.0f;
+    float blue = arc4random_uniform(100) / 100.0f;
+    float alpha = 1.0f;
+    
+    UIColor *randomColor = [[UIColor alloc] initWithRed:red green:green blue:blue alpha:alpha];
+    
+    return [randomColor autorelease];
+}
 
 @end

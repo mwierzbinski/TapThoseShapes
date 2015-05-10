@@ -21,6 +21,7 @@ typedef NS_ENUM(NSUInteger, STShapeType)
     float _area;
 }
 
+@property(nonatomic, retain) UIColor *color;
 @property(nonatomic, assign, readonly) CGSize size;
 @property(nonatomic, assign) CGPoint center;
 

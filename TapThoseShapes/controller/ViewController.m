@@ -86,13 +86,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.multipleTouchEnabled = NO;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedScreen:)];
+    [[self getGameView].shapesField addGestureRecognizer:tap];
+    [tap release];
+    
     [self.level initializeLevel];
-    // Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)tapedScreen:(UITapGestureRecognizer *)tapGesture {
+    CGPoint tapPoint = [tapGesture locationInView:tapGesture.view];
+
+    for (long i = [self.level.shapeList count] -1; i >= 0; i--) {
+        
+        TTSShape *shape = [self.level.shapeList objectAtIndex:i];
+
+        if ([shape containsPoint:tapPoint]) {
+            [self.level removeShapeFromList:shape];
+            break;
+        }
+    }
 }
 
 #pragma mark - helper

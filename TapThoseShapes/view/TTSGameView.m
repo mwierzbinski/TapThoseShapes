@@ -15,6 +15,7 @@
 @implementation TTSGameView
 
 #pragma mark - init/dealloc
+
 - (void)dealloc {
     [_shapesField release];
     [super dealloc];
@@ -38,15 +39,15 @@
         
         if ([shape isKindOfClass:[TTSCircle class]]) {
             // draw circle img
-            textureImg = [self drawCircleWithSize:shape.size];
+            textureImg = [self drawCircleShape:shape];
             
         } else if ([shape isKindOfClass:[TTSSquare class]]) {
             // draw square img
-            textureImg = [self drawSquareWithSize:shape.size];
+            textureImg = [self drawSquareShape:shape];
             
         } else if ([shape isKindOfClass:[TTSTriangle class]]) {
             // draw triangle img
-            textureImg = [self drawTriangleWithSize:shape.size];
+            textureImg = [self drawTriangleShape:shape];
         }
         
         float shapePosX = shape.center.x - (shape.size.width * .5);
@@ -63,9 +64,16 @@
     self.shapesField.image = outputImage;
 }
 
+
+#pragma mark - touch
+
+
+
 #pragma mark - drawing methods
 
--(UIImage *)drawTriangleWithSize:(CGSize)shapeSize {
+-(UIImage *)drawTriangleShape:(TTSShape *)shape {
+    
+    CGSize shapeSize = shape.size;
     
     // create drawing context
     UIGraphicsBeginImageContextWithOptions(shapeSize, false, 0);
@@ -78,7 +86,7 @@
     CGContextAddLineToPoint(context, shapeSize.width, shapeSize.height);  // bottom left
     CGContextClosePath(context);
     // fill color
-    CGContextSetFillColorWithColor(context, [self randomColor].CGColor);
+    CGContextSetFillColorWithColor(context, shape.color.CGColor);
     CGContextFillPath(context);
     
     // extract image
@@ -88,7 +96,9 @@
     return spriteImage;
 }
 
--(UIImage *)drawCircleWithSize:(CGSize)shapeSize {
+-(UIImage *)drawCircleShape:(TTSShape *)shape {
+    
+    CGSize shapeSize = shape.size;
     
     // create drawing context
     UIGraphicsBeginImageContextWithOptions(shapeSize, false, 0);
@@ -96,7 +106,7 @@
     
     // draw circle
     CGContextBeginPath(context);
-    CGContextSetFillColorWithColor(context, [self randomColor].CGColor);
+    CGContextSetFillColorWithColor(context, shape.color.CGColor);
     CGRect borderRect = CGRectMake(0.0, 0.0, shapeSize.width, shapeSize.height);
     CGContextFillEllipseInRect (context, borderRect);
     CGContextFillPath(context);
@@ -108,7 +118,9 @@
     return spriteImage;
 }
 
--(UIImage *)drawSquareWithSize:(CGSize)shapeSize {
+-(UIImage *)drawSquareShape:(TTSShape *)shape {
+    
+    CGSize shapeSize = shape.size;
     
     // create drawing context
     UIGraphicsBeginImageContextWithOptions(shapeSize, false, 0);
@@ -116,7 +128,7 @@
     
     // draw square
     CGContextBeginPath(context);
-    CGContextSetFillColorWithColor(context, [self randomColor].CGColor);
+    CGContextSetFillColorWithColor(context, shape.color.CGColor);
     CGRect borderRect = CGRectMake(0.0, 0.0, shapeSize.width, shapeSize.height);
     CGContextFillRect(context, borderRect);
     CGContextFillPath(context);

@@ -19,6 +19,11 @@
     return self;
 }
 
+- (void)dealloc {
+    [_color release];
+    [super dealloc];
+}
+
 - (NSString *)shapeDescription {
     return nil;
 }

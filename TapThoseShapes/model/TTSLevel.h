@@ -26,6 +26,6 @@ static NSInteger kTimeInterval = 1; // spawning time of Shapes
 @property (nonatomic, retain) NSArray *shapeList;
 
 - (void)initializeLevel; //should be called after we set level properties
-
+- (void)removeShapeFromList:(TTSShape *)shape;
 
 @end
