@@ -16,11 +16,13 @@ static int kMaxNodes = 200; // max number of Shapes at this lvl
 static int kTimePerRound = 60;
 static int kInitialShapesCount = 20; // the number will be a random between kMinNodes and (kMinNodes + kInitialShapesCount)
 static int kUpdateCallsPerSecond = 60;
-static double kShapeSpawnTime = 5; // adding new shape every .5s
+static double kShapeSpawnTime = .5; // adding new shape every .5s
+static double kDescriptionLabelDismissTime = 2.f;
 
 @interface ViewController () {
     double addShapeTime;
     double roundClock;
+    double shapeDescTime;
     // double lastUpdateTime;
 }
 
@@ -134,6 +136,7 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
         TTSShape *shape = [self.level.shapeList objectAtIndex:i];
 
         if ([shape containsPoint:tapPoint]) {
+            [self showShapeDescription:[shape shapeDescription]];
             [self.level removeShapeFromList:shape];
             break;
         }
@@ -210,6 +213,8 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     [self updateShapes:timer.timeInterval];
     // update game clock
     [self updateRemainingTime:timer.timeInterval];
+    // update botton label timer
+    [self updateShapeDescription:timer.timeInterval];
     
 }
 
@@ -244,7 +249,7 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     }
 }
 
--(void) showIntroScreen {
+-(void)showIntroScreen {
     self.infoText = [self setupInfoText];
     self.infoText.text = @"[ Tap to start ]";
     [self.view addSubview:self.infoText];
@@ -254,6 +259,19 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     self.infoText = [self setupInfoText];
     self.infoText.text = @"[ Tap to try again ]";
     [self.view addSubview:self.infoText];
+}
+
+-(void)showShapeDescription:(NSString *)description {
+    shapeDescTime = 0;
+    [self getGameView].descriptionLabel.text = description;
+}
+
+-(void)updateShapeDescription:(double)deltaTime {
+    shapeDescTime += deltaTime;
+    if (shapeDescTime >= kDescriptionLabelDismissTime) {
+        [self getGameView].descriptionLabel.text = @"";
+        shapeDescTime = 0;
+    }
 }
 
 #pragma mark - info screen
@@ -277,10 +295,10 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     
     // because star wars is cool!
     // Start with a blank transform
-    //CATransform3D blankTransform = CATransform3DIdentity;
+    // CATransform3D blankTransform = CATransform3DIdentity;
     
     // Skew the text
-    // blankTransform.m34 = -1.0 / 700.0;
+    // blankTransform.m34 = -1.0 / 800.0;
     
     // Rotate the text
     // blankTransform = CATransform3DRotate(blankTransform, 45.0f * M_PI / 180.0f, 1.0f, 0.0f, 0.0f);
