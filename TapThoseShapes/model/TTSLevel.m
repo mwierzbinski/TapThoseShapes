@@ -33,6 +33,10 @@ static float kMinShapeSize = 44; // we could make it small but that would be dif
     [initialShapesArray release];
 }
 
+- (void)resetLevel {
+    self.shapeList = nil;
+}
+
 #pragma mark - adding/ removing from list
 
 - (void)removeShapeFromList:(TTSShape *)shape

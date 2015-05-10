@@ -15,6 +15,7 @@
 @property (nonatomic, retain) NSTimer *levelTimer;
 @property (nonatomic, retain) NSTimer *spawnTimer;
 
+@property (nonatomic, retain) UITextView *infoText;
 @property (nonatomic, retain) TTSLevel *level;
 
 @end
@@ -47,6 +48,7 @@
 
 - (void)dealloc {
     [self removeObservers];
+    [_infoText release];
     [_level release];
     [super dealloc];
 }
@@ -54,24 +56,38 @@
 #pragma mark - observers
 
 -(void) addObservers {
-    NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
-    [self.level addObserver:self forKeyPath:shapeListKey options:NSKeyValueObservingOptionNew context:nil];
+    
+    NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
+    [self.level addObserver:self forKeyPath:gameStateKey options:NSKeyValueObservingOptionNew context:nil];
 }
 
 -(void)removeObservers {
-    NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
-    [self.level removeObserver:self forKeyPath:shapeListKey];
+    
+    NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
+    [self.level removeObserver:self forKeyPath:gameStateKey];
+    
+
 }
 
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
+    NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
-    if (object == self.level && [keyPath isEqualToString:shapeListKey])
-    {
+    
+    if (object == self.level && [keyPath isEqualToString:shapeListKey]) {
         [[self getGameView] updateScreenWithObjects:self.level.shapeList];
-    }
-    else
-    {
+        
+    } else if (object == self.level && [keyPath isEqualToString:gameStateKey]) {
+        
+        if (self.level.gameState == TTSGameStateInProgress) {
+            [self startGame];
+        } else if (self.level.gameState == TTSGameStateStart) {
+            [self showIntroScreen];
+        } else if (self.level.gameState == TTSGameStateEnd) {
+            [self endGame];
+        }
+        
+    } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
@@ -92,13 +108,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.level.gameState = TTSGameStateStart;
+    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedScreen:)];
     [[self getGameView].shapesField addGestureRecognizer:tap];
     [tap release];
-    
-    [self.level initializeLevel];
-    
-    [self startGame];
 }
 
 -(void)tapedScreen:(UITapGestureRecognizer *)tapGesture {
@@ -115,14 +129,24 @@
     }
 }
 
-#pragma mark - game 
+#pragma mark - game
 
 - (void)startGame {
     
+    [self.infoText removeFromSuperview];
+    self.infoText = nil;
+    
+    // add observer for shapelist
+    NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
+    [self.level addObserver:self forKeyPath:shapeListKey options:NSKeyValueObservingOptionNew context:nil];
+    
+    [self.level initializeLevel];
+    
+    // start game timers
     NSTimer* levelTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateRemainingTime:) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:levelTimer forMode:NSRunLoopCommonModes];
     self.levelTimer = levelTimer;
-
+    
     NSTimer* spawnTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateShapes:) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:spawnTimer forMode:NSRunLoopCommonModes];
     self.spawnTimer = spawnTimer;
@@ -130,9 +154,21 @@
 }
 
 - (void)endGame {
+    
+    [self showEndGameScreen];
+    //remove shapes
+    [self.level resetLevel];
+
+    // invalidate timers
+    [self.spawnTimer invalidate];
+    self.spawnTimer = nil;
+    
     [self.levelTimer invalidate];
     self.levelTimer = nil;
     
+    // remove observers
+    NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
+    [self.level removeObserver:self forKeyPath:shapeListKey];
 }
 
 - (void)updateRemainingTime:(NSTimer *)onject {
@@ -142,6 +178,61 @@
 - (void)updateShapes:(NSTimer *)onject {
     [self.level addRandomShapeToList];
 }
+
+-(void)dismissInfoScreen:(UITapGestureRecognizer *)tapGesture {
+    
+    if (self.level.gameState == TTSGameStateStart || self.level.gameState == TTSGameStateEnd) {
+        self.level.gameState = TTSGameStateInProgress;
+    }
+}
+
+-(void) showIntroScreen {
+    self.infoText = [self setupInfoText];
+    self.infoText.text = @"[ Tap to start ]";
+    [self.view addSubview:self.infoText];
+}
+
+-(void)showEndGameScreen {
+    self.infoText = [self setupInfoText];
+    self.infoText.text = @"[ Tap to try again ]";
+    [self.view addSubview:self.infoText];
+}
+
+#pragma mark - info screen
+
+-(UITextView *)setupInfoText {
+    
+    UITextView *textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+    textView.backgroundColor = [UIColor blackColor];
+    textView.textColor = [UIColor yellowColor];
+    textView.font = [UIFont boldSystemFontOfSize:36.0];
+    textView.textAlignment = NSTextAlignmentCenter;
+    
+    // disable editing
+    textView.editable = NO;
+    textView.selectable = NO;
+    
+    // add gesture for dismiss
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissInfoScreen:)];
+    [textView addGestureRecognizer:tap];
+    [tap release];
+    
+    // Start with a blank transform
+    //CATransform3D blankTransform = CATransform3DIdentity;
+    
+    // Skew the text
+    // blankTransform.m34 = -1.0 / 700.0;
+    
+    // Rotate the text
+    // blankTransform = CATransform3DRotate(blankTransform, 45.0f * M_PI / 180.0f, 1.0f, 0.0f, 0.0f);
+    
+    // Set the transform
+    // [textView.layer setTransform:blankTransform];
+    
+    return [textView autorelease];
+}
+
+
 
 
 #pragma mark - helper
