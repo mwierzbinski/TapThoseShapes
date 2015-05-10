@@ -9,6 +9,14 @@
 #import <UIKit/UIKit.h>
 
 
+typedef NS_ENUM(NSUInteger, TTSGameState)
+{
+    TTSGameStateStart = 1,
+    TTSGameStateInProgress,
+    TTSGameStateEnd
+    
+};
+
 @interface ViewController : UIViewController
 
 

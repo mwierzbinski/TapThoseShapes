@@ -13,7 +13,7 @@
 // defined values for task
 static int kMinNodes = 10; // minimum number of Shapes at this lvl
 static int kMaxNodes = 200; // max number of Shapes at this lvl
-static int kTimePerRound = 60;
+static int kTimePerRound = 10;
 static int kInitialShapesCount = 20; // the number will be a random between kMinNodes and (kMinNodes + kInitialShapesCount)
 static int kUpdateCallsPerSecond = 60;
 static double kShapeSpawnTime = .5; // adding new shape every .5s
@@ -29,6 +29,7 @@ static double kDescriptionLabelDismissTime = 2.f;
 @property (nonatomic, retain) NSTimer *updateTimer;
 @property (nonatomic, retain) UITextView *infoText;
 @property (nonatomic, retain) TTSLevel *level;
+@property (nonatomic, assign) TTSGameState gameState;
 
 @end
 
@@ -59,7 +60,6 @@ static double kDescriptionLabelDismissTime = 2.f;
 }
 
 - (void)dealloc {
-    [self removeObservers];
     [_updateTimer invalidate];
     [_updateTimer release];
     [_infoText release];
@@ -69,34 +69,13 @@ static double kDescriptionLabelDismissTime = 2.f;
 
 #pragma mark - observers
 
--(void) addObservers {
-    NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
-    [self.level addObserver:self forKeyPath:gameStateKey options:NSKeyValueObservingOptionNew context:nil];
-}
-
--(void)removeObservers {
-    NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
-    [self.level removeObserver:self forKeyPath:gameStateKey];
-}
-
 -(void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
     NSString *roundTimeKey = NSStringFromSelector(@selector(timeLeftInRound));
     
     if (object == self.level && [keyPath isEqualToString:shapeListKey]) {
         [[self getGameView] updateScreenWithObjects:self.level.shapeList];
-        
-    } else if (object == self.level && [keyPath isEqualToString:gameStateKey]) {
-        
-        if (self.level.gameState == TTSGameStateInProgress) {
-            [self startGame];
-        } else if (self.level.gameState == TTSGameStateStart) {
-            [self showIntroScreen];
-        } else if (self.level.gameState == TTSGameStateEnd) {
-            [self endGame];
-        }
         
     } else if (object == self.level && [keyPath isEqualToString:roundTimeKey]) {
         [self getGameView].timerLabel.text = [NSString stringWithFormat:@"%li", (long)self.level.timeLeftInRound];
@@ -112,8 +91,6 @@ static double kDescriptionLabelDismissTime = 2.f;
     TTSLevel *level = [[TTSLevel alloc] init];
     self.level = level;
     [level release];
-    
-    [self addObservers];
 }
 
 #pragma mark - life cycle
@@ -121,7 +98,7 @@ static double kDescriptionLabelDismissTime = 2.f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.level.gameState = TTSGameStateStart;
+    self.gameState = TTSGameStateStart;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapedScreen:)];
     [[self getGameView].shapesField addGestureRecognizer:tap];
@@ -225,7 +202,7 @@ static double kDescriptionLabelDismissTime = 2.f;
     
     if (roundClock >= sec) {
         if (self.level.timeLeftInRound == 0) {
-            self.level.gameState = TTSGameStateEnd;
+            self.gameState = TTSGameStateEnd;
         } else {
             --self.level.timeLeftInRound;
         }
@@ -244,8 +221,8 @@ static double kDescriptionLabelDismissTime = 2.f;
 
 -(void)dismissInfoScreen:(UITapGestureRecognizer *)tapGesture {
     
-    if (self.level.gameState == TTSGameStateStart || self.level.gameState == TTSGameStateEnd) {
-        self.level.gameState = TTSGameStateInProgress;
+    if (self.gameState == TTSGameStateStart || self.gameState == TTSGameStateEnd) {
+        self.gameState = TTSGameStateInProgress;
     }
 }
 
@@ -271,6 +248,21 @@ static double kDescriptionLabelDismissTime = 2.f;
     if (shapeDescTime >= kDescriptionLabelDismissTime) {
         [self getGameView].descriptionLabel.text = @"";
         shapeDescTime = 0;
+    }
+}
+
+#pragma mark - 
+
+-(void)setGameState:(TTSGameState)gameState {
+    
+    _gameState = gameState;
+    
+    if (gameState == TTSGameStateInProgress) {
+        [self startGame];
+    } else if (gameState == TTSGameStateStart) {
+        [self showIntroScreen];
+    } else if (gameState == TTSGameStateEnd) {
+        [self endGame];
     }
 }
 
