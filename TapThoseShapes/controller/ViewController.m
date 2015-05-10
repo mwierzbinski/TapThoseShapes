@@ -201,11 +201,11 @@ static double kDescriptionLabelDismissTime = 2.f;
     roundClock += deltaTime;
     
     if (roundClock >= sec) {
+        --self.level.timeLeftInRound;
         if (self.level.timeLeftInRound == 0) {
             self.gameState = TTSGameStateEnd;
-        } else {
-            --self.level.timeLeftInRound;
         }
+        
         roundClock = 0;
     }
 }
