@@ -52,7 +52,7 @@
 
 - (NSString *)shapeDescription {
     int sides = 3;
-    return [NSString stringWithFormat:@"Triangle with numbero of sides: %i and area:%.1f",sides ,[self calculateArea]];
+    return [NSString stringWithFormat:@"Triangle with sides: %i and area: %.0f",sides ,[self calculateArea]];
 }
 
 #pragma mark - calculation helpers

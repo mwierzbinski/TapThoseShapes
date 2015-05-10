@@ -32,7 +32,7 @@
 
 - (NSString *)shapeDescription {
     
-    return [NSString stringWithFormat:@"Circle with radius: %.1f and area:%.1f", _radius, _area];
+    return [NSString stringWithFormat:@"Circle with radius: %.0f and area: %.0f", _radius, _area];
 }
 
 #pragma mark - calculation helpers

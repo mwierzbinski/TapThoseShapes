@@ -30,7 +30,8 @@
 }
 
 - (NSString *)shapeDescription {
-    return [NSString stringWithFormat:@"Square with four sides and area:%.1f",_area];
+    int sides = 4;
+    return [NSString stringWithFormat:@"Square with sides: %i and area: %.1f",sides ,_area];
 }
 
 #pragma mark - calculation helpers
