@@ -81,6 +81,7 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
 {
     NSString *gameStateKey = NSStringFromSelector(@selector(gameState));
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
+    NSString *roundTimeKey = NSStringFromSelector(@selector(timeLeftInRound));
     
     if (object == self.level && [keyPath isEqualToString:shapeListKey]) {
         [[self getGameView] updateScreenWithObjects:self.level.shapeList];
@@ -95,6 +96,8 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
             [self endGame];
         }
         
+    } else if (object == self.level && [keyPath isEqualToString:roundTimeKey]) {
+        [self getGameView].timerLabel.text = [NSString stringWithFormat:@"%li", (long)self.level.timeLeftInRound];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
@@ -147,6 +150,9 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     // add observer for shapelist
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
     [self.level addObserver:self forKeyPath:shapeListKey options:NSKeyValueObservingOptionNew context:nil];
+
+    NSString *roundTimeKey = NSStringFromSelector(@selector(timeLeftInRound));
+    [self.level addObserver:self forKeyPath:roundTimeKey options:NSKeyValueObservingOptionNew context:nil];
     
     // customize level
     self.level.minShapes = kMinNodes;
@@ -183,6 +189,9 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
     // remove observers
     NSString *shapeListKey = NSStringFromSelector(@selector(shapeList));
     [self.level removeObserver:self forKeyPath:shapeListKey];
+    
+    NSString *roundTimeKey = NSStringFromSelector(@selector(timeLeftInRound));
+    [self.level removeObserver:self forKeyPath:roundTimeKey];
 }
 
 #pragma mark - actions
@@ -214,7 +223,6 @@ static double kShapeSpawnTime = 5; // adding new shape every .5s
             self.level.gameState = TTSGameStateEnd;
         } else {
             --self.level.timeLeftInRound;
-            [self getGameView].timerLabel.text = [NSString stringWithFormat:@"%li", (long)self.level.timeLeftInRound];
         }
         roundClock = 0;
     }
