@@ -14,6 +14,10 @@
 		900DE2E91AFF5E8400DC7ED9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 900DE2E81AFF5E8400DC7ED9 /* Images.xcassets */; };
 		900DE2EC1AFF5E8400DC7ED9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900DE2EA1AFF5E8400DC7ED9 /* LaunchScreen.xib */; };
 		900DE2F81AFF5E8400DC7ED9 /* TapThoseShapesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 900DE2F71AFF5E8400DC7ED9 /* TapThoseShapesTests.m */; };
+		905B5C591AFF6129004CEA88 /* TTSShape.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C541AFF6129004CEA88 /* TTSShape.m */; };
+		905B5C5A1AFF6129004CEA88 /* TTSSquare.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C561AFF6129004CEA88 /* TTSSquare.m */; };
+		905B5C5B1AFF6129004CEA88 /* TTSTriangle.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C581AFF6129004CEA88 /* TTSTriangle.m */; };
+		905B5C5E1AFF6133004CEA88 /* TTSCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = 905B5C5D1AFF6133004CEA88 /* TTSCircle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +44,14 @@
 		900DE2F11AFF5E8400DC7ED9 /* TapThoseShapesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TapThoseShapesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		900DE2F61AFF5E8400DC7ED9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		900DE2F71AFF5E8400DC7ED9 /* TapThoseShapesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TapThoseShapesTests.m; sourceTree = "<group>"; };
+		905B5C531AFF6129004CEA88 /* TTSShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSShape.h; sourceTree = "<group>"; };
+		905B5C541AFF6129004CEA88 /* TTSShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSShape.m; sourceTree = "<group>"; };
+		905B5C551AFF6129004CEA88 /* TTSSquare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSSquare.h; sourceTree = "<group>"; };
+		905B5C561AFF6129004CEA88 /* TTSSquare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSSquare.m; sourceTree = "<group>"; };
+		905B5C571AFF6129004CEA88 /* TTSTriangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSTriangle.h; sourceTree = "<group>"; };
+		905B5C581AFF6129004CEA88 /* TTSTriangle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSTriangle.m; sourceTree = "<group>"; };
+		905B5C5C1AFF6133004CEA88 /* TTSCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSCircle.h; sourceTree = "<group>"; };
+		905B5C5D1AFF6133004CEA88 /* TTSCircle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSCircle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +142,14 @@
 		900DE3021AFF5F1D00DC7ED9 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				905B5C5C1AFF6133004CEA88 /* TTSCircle.h */,
+				905B5C5D1AFF6133004CEA88 /* TTSCircle.m */,
+				905B5C531AFF6129004CEA88 /* TTSShape.h */,
+				905B5C541AFF6129004CEA88 /* TTSShape.m */,
+				905B5C551AFF6129004CEA88 /* TTSSquare.h */,
+				905B5C561AFF6129004CEA88 /* TTSSquare.m */,
+				905B5C571AFF6129004CEA88 /* TTSTriangle.h */,
+				905B5C581AFF6129004CEA88 /* TTSTriangle.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -244,7 +264,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				900DE2E41AFF5E8400DC7ED9 /* ViewController.m in Sources */,
+				905B5C5A1AFF6129004CEA88 /* TTSSquare.m in Sources */,
+				905B5C591AFF6129004CEA88 /* TTSShape.m in Sources */,
+				905B5C5B1AFF6129004CEA88 /* TTSTriangle.m in Sources */,
 				900DE2E11AFF5E8400DC7ED9 /* AppDelegate.m in Sources */,
+				905B5C5E1AFF6133004CEA88 /* TTSCircle.m in Sources */,
 				900DE2DE1AFF5E8400DC7ED9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -442,6 +466,7 @@
 				900DE2FD1AFF5E8400DC7ED9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		900DE2FE1AFF5E8400DC7ED9 /* Build configuration list for PBXNativeTarget "TapThoseShapesTests" */ = {
 			isa = XCConfigurationList;
@@ -450,6 +475,7 @@
 				900DE3001AFF5E8400DC7ED9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
