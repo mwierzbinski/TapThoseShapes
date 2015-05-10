@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HvD-h4-3zr">
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HvD-h4-3zr">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AM9-bj-VIg">
@@ -48,6 +48,7 @@
                             <constraint firstItem="AM9-bj-VIg" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="goV-oh-13t"/>
                             <constraint firstAttribute="trailing" secondItem="AM9-bj-VIg" secondAttribute="trailing" id="j0d-xA-3TY"/>
                             <constraint firstItem="ItY-WL-Wqf" firstAttribute="bottom" secondItem="HvD-h4-3zr" secondAttribute="bottom" id="qbO-g5-VAk"/>
+                            <constraint firstItem="HvD-h4-3zr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="vzo-PF-zk3"/>
                             <constraint firstItem="ItY-WL-Wqf" firstAttribute="leading" secondItem="AM9-bj-VIg" secondAttribute="leading" id="ybH-CR-4KF"/>
                         </constraints>
                         <connections>
