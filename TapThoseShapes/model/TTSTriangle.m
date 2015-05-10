@@ -23,11 +23,11 @@
 
 - (BOOL)containsPoint:(CGPoint)point {
     
-    // get triangle points - hmm should we keep those in array?
-    // were calculating them twice :/
-    CGPoint pointA = CGPointMake(self.center.x - (self.size.width * .5), self.center.y - (self.size.width * .5));
-    CGPoint pointB = CGPointMake(self.center.x + (self.size.width * .5), self.center.y - (self.size.width * .5));
-    CGPoint pointC = CGPointMake(self.center.x, self.center.y + (self.size.width * .5));
+    // get triangle points
+    CGPoint pointA = CGPointMake(self.center.x - (self.size.width * .5), self.center.y + (self.size.height * .5));
+    CGPoint pointB = CGPointMake(self.center.x, self.center.y - (self.size.height * .5));
+    CGPoint pointC = CGPointMake(self.center.x + (self.size.width * .5), self.center.y + (self.size.height * .5));
+    
     
     //calculate vectors
     CGVector v0 = CGVectorMake(pointC.x - pointA.x, pointC.y - pointA.y);
